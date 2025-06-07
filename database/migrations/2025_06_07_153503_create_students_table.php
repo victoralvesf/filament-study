@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->date('birth_date');
             $table->foreignIdFor(Course::class)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
