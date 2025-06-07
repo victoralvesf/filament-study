@@ -46,7 +46,7 @@ class CourseResource extends Resource
                 Tables\Columns\TextColumn::make('teacher.name')
                     ->label(__('courses.fields.teacher')),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->date('d/m/Y')
+                    ->date()
                     ->label(__('courses.fields.created_at')),
             ])
             ->filters([

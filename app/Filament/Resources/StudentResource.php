@@ -52,7 +52,7 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('students.fields.email')),
                 Tables\Columns\TextColumn::make('birth_date')
-                    ->date('d/m/Y')
+                    ->date()
                     ->label(__('students.fields.birth_date')),
                 Tables\Columns\TextColumn::make('course.title')
                     ->label(__('students.fields.course')),
