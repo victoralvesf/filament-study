@@ -8,6 +8,6 @@ return [
     'fields' => [
         'name' => 'Name',
         'email' => 'Email',
-        'hire_date' => 'Hire date',
+        'hire_date' => 'Hired at',
     ],
 ];
