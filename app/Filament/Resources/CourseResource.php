@@ -17,18 +17,23 @@ class CourseResource extends Resource
 {
     protected static ?string $model = Course::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $recordTitleAttribute = 'title';
+
+    protected static ?string $navigationIcon = 'heroicon-o-library';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->required(),
+                    ->required()
+                    ->label(__('courses.fields.title')),
                 Forms\Components\Select::make('teacher_id')
-                    ->relationship('teacher', 'name'),
+                    ->relationship('teacher', 'name')
+                    ->label(__('courses.fields.teacher')),
+                Forms\Components\Textarea::make('description')
+                    ->required()
+                    ->label(__('courses.fields.description')),
             ]);
     }
 
@@ -36,21 +41,23 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('teacher.name'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('courses.fields.title')),
+                Tables\Columns\TextColumn::make('teacher.name')
+                    ->label(__('courses.fields.teacher')),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->date('d/m/Y')
+                    ->label(__('courses.fields.created_at')),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -58,14 +65,14 @@ class CourseResource extends Resource
                 Tables\Actions\RestoreBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -73,13 +80,28 @@ class CourseResource extends Resource
             'create' => Pages\CreateCourse::route('/create'),
             'edit' => Pages\EditCourse::route('/{record}/edit'),
         ];
-    }    
-    
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('courses.label.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('courses.label.plural');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('courses.label.plural');
     }
 }

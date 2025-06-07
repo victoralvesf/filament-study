@@ -17,19 +17,24 @@ class TeacherResource extends Resource
 {
     protected static ?string $model = Teacher::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->label(__('teachers.fields.name')),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required(),
+                    ->required()
+                    ->label(__('teachers.fields.email')),
                 Forms\Components\DatePicker::make('hire_date')
-                    ->required(),
+                    ->required()
+                    ->label(__('teachers.fields.hire_date')),
             ]);
     }
 
@@ -37,22 +42,23 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('teachers.fields.name')),
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('teachers.fields.email')),
                 Tables\Columns\TextColumn::make('hire_date')
-                    ->date(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->date()
+                    ->label(__('teachers.fields.hire_date')),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -60,14 +66,14 @@ class TeacherResource extends Resource
                 Tables\Actions\RestoreBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -75,13 +81,28 @@ class TeacherResource extends Resource
             'create' => Pages\CreateTeacher::route('/create'),
             'edit' => Pages\EditTeacher::route('/{record}/edit'),
         ];
-    }    
-    
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('teachers.label.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('teachers.label.plural');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('teachers.label.plural');
     }
 }

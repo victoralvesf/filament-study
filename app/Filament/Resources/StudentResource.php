@@ -12,26 +12,33 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\App;
 
 class StudentResource extends Resource
 {
     protected static ?string $model = Student::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->label(__('students.fields.name')),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required(),
+                    ->required()
+                    ->label(__('students.fields.email')),
                 Forms\Components\DatePicker::make('birth_date')
-                    ->required(),
+                    ->required()
+                    ->label(__('students.fields.birth_date')),
                 Forms\Components\Select::make('course_id')
-                    ->relationship('course', 'title'),
+                    ->relationship('course', 'title')
+                    ->label(__('students.fields.course')),
             ]);
     }
 
@@ -39,23 +46,27 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->label(__('students.fields.name')),
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('students.fields.email')),
                 Tables\Columns\TextColumn::make('birth_date')
-                    ->date(),
-                Tables\Columns\TextColumn::make('course.title'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->date('d/m/Y')
+                    ->label(__('students.fields.birth_date')),
+                Tables\Columns\TextColumn::make('course.title')
+                    ->label(__('students.fields.course')),
             ])
+            ->defaultSort('name')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -63,14 +74,14 @@ class StudentResource extends Resource
                 Tables\Actions\RestoreBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -78,13 +89,28 @@ class StudentResource extends Resource
             'create' => Pages\CreateStudent::route('/create'),
             'edit' => Pages\EditStudent::route('/{record}/edit'),
         ];
-    }    
-    
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('students.label.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('students.label.plural');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('students.label.plural');
     }
 }
