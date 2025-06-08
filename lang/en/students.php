@@ -9,6 +9,13 @@ return [
         'name' => 'Name',
         'email' => 'Email',
         'birth_date' => 'Birth date',
-        'course' => 'Course'
+        'course' => 'Course',
+        'enrollment_status' => 'Enrollment status',
     ],
+    'enums' => [
+        'enrollment' => [
+            'valid' => 'Valid',
+            'invalid' => 'Cancelled',
+        ]
+    ]
 ];

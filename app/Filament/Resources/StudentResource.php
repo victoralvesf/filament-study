@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StudentResource\Pages;
 use App\Filament\Resources\StudentResource\RelationManagers;
+use App\Forms\Components\StudyToggle;
 use App\Models\Student;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -39,6 +40,8 @@ class StudentResource extends Resource
                 Forms\Components\Select::make('course_id')
                     ->relationship('course', 'title')
                     ->label(__('students.fields.course')),
+                StudyToggle::make('active')
+                    ->label(__('students.fields.enrollment_status')),
             ]);
     }
 
@@ -54,6 +57,16 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('birth_date')
                     ->date()
                     ->label(__('students.fields.birth_date')),
+                Tables\Columns\BadgeColumn::make('active')
+                    ->label(__('students.fields.enrollment_status'))
+                    ->enum([
+                        true => __('students.enums.enrollment.valid'),
+                        false => __('students.enums.enrollment.invalid'),
+                    ])
+                    ->colors([
+                        'success' => true,
+                        'danger' => false,
+                    ]),
                 Tables\Columns\TextColumn::make('course.title')
                     ->label(__('students.fields.course')),
             ])

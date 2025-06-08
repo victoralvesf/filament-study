@@ -14,13 +14,13 @@ class StatsOverview extends BaseWidget
 
     protected function getCards(): array
     {
-        $active_students = Student::count();
+        $active_students = Student::active()->count();
         $active_courses = Course::count();
         $active_teachers = Teacher::count();
 
         return [
             Card::make('Alunos ativos', $active_students)
-                ->description('Quantidade de alunos presentes em um curso.')
+                ->description('Quantidade de alunos com matrícula ativa.')
                 ->descriptionIcon('heroicon-o-academic-cap')
                 ->color('primary'),
             Card::make('Cursos ativos', $active_courses)
