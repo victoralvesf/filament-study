@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Illuminate\Support\Facades\Cache;
 
 class StatsOverview extends BaseWidget
 {
@@ -14,9 +15,17 @@ class StatsOverview extends BaseWidget
 
     protected function getCards(): array
     {
-        $active_students = Student::active()->count();
-        $active_courses = Course::count();
-        $active_teachers = Teacher::count();
+        $ttl = now()->addHours(10);
+
+        $active_students = Cache::remember('stats:active_students', $ttl, function () {
+            return Student::active()->count();
+        });
+        $active_courses = Cache::remember('stats:active_courses', $ttl, function () {
+            return Course::count();
+        });
+        $active_teachers = Cache::remember('stats:active_teachers', $ttl, function () {
+            return Teacher::count();
+        });
 
         return [
             Card::make('Alunos ativos', $active_students)
