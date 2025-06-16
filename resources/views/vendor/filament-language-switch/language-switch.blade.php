@@ -28,7 +28,7 @@
     </style>
     <x-slot name="trigger" @class($triggerClasses)>
         <div
-            class="flex items-center justify-center px-3 gap-2 h-10 font-semibold text-white bg-center bg-cover rounded-md language-switch-trigger bg-primary-500 dark:bg-gray-700">
+            class="flex items-center justify-center px-3 gap-2 h-10 font-semibold bg-center bg-cover rounded-lg language-switch-trigger bg-gray-400/10 text-gray-500 dark:bg-gray-700 dark:text-white">
             @if ($showFlags)
                 <x-dynamic-component :component="'flag-1x1-' . $currentFlag"
                     class="flex-shrink-0 w-5 h-5 group-hover:text-white group-focus:text-white text-primary-500"
