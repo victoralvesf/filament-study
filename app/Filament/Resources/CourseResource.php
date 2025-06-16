@@ -27,36 +27,33 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                Grid::make(1)
+                Section::make(__('courses.form.messages.info'))
                     ->schema([
-                        Section::make('Informações')
+                        Grid::make(2)
                             ->schema([
-                                Grid::make(2)
-                                    ->schema([
-                                        Forms\Components\TextInput::make('title')
-                                            ->required()
-                                            ->label(__('courses.fields.title')),
-                                        Forms\Components\Select::make('teacher_id')
-                                            ->relationship('teacher', 'name')
-                                            ->label(__('courses.fields.teacher')),
-                                    ]),
-                                Grid::make(1)
-                                    ->schema([
-                                        Forms\Components\RichEditor::make('description')
-                                            ->required()
-                                            ->disableToolbarButtons([
-                                                'attachFiles',
-                                                'codeBlock',
-                                            ])
-                                            ->label(__('courses.fields.description')),
-                                    ]),
-                            ])
-                            ->columns(2),
-                        Section::make('Situação')
+                                Forms\Components\TextInput::make('title')
+                                    ->required()
+                                    ->label(__('courses.fields.title')),
+                                Forms\Components\Select::make('teacher_id')
+                                    ->relationship('teacher', 'name')
+                                    ->label(__('courses.fields.teacher')),
+                            ]),
+                        Grid::make(1)
                             ->schema([
-                                StudyToggle::make('is_active')
-                                    ->label(__('courses.fields.is_active')),
-                            ])
+                                Forms\Components\RichEditor::make('description')
+                                    ->required()
+                                    ->disableToolbarButtons([
+                                        'attachFiles',
+                                        'codeBlock',
+                                    ])
+                                    ->label(__('courses.fields.description')),
+                            ]),
+                    ])
+                    ->columns(2),
+                Section::make(__('courses.form.messages.status'))
+                    ->schema([
+                        StudyToggle::make('is_active')
+                            ->label(__('courses.fields.is_active')),
                     ])
             ]);
     }

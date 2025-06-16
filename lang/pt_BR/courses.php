@@ -5,6 +5,12 @@ return [
         'singular' => 'Curso',
         'plural' => 'Cursos',
     ],
+    'form' => [
+        'messages' => [
+            'info' => 'Informações',
+            'status' => 'Situação'
+        ]
+    ],
     'fields' => [
         'title' => 'Título',
         'description' => 'Descrição',
