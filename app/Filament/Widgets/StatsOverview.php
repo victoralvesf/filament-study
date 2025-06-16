@@ -28,16 +28,18 @@ class StatsOverview extends BaseWidget
         });
 
         return [
-            Card::make('Alunos ativos', $active_students)
-                ->description('Quantidade de alunos com matrícula ativa.')
+            Card::make(__('dashboard.stats.students.title'), $active_students)
+                ->description(__('dashboard.stats.students.summary'))
                 ->descriptionIcon('heroicon-o-academic-cap')
                 ->color('primary'),
-            Card::make('Cursos ativos', $active_courses)
-                ->description('Quantidade de cursos ministrados no momento.')
+
+            Card::make(__('dashboard.stats.courses.title'), $active_courses)
+                ->description(__('dashboard.stats.courses.summary'))
                 ->descriptionIcon('heroicon-o-library')
                 ->color('primary'),
-            Card::make('Professores ativos', $active_teachers)
-                ->description('Quantidade de professores ministrando cursos no momento.')
+
+            Card::make(__('dashboard.stats.teachers.title'), $active_teachers)
+                ->description(__('dashboard.stats.teachers.summary'))
                 ->descriptionIcon('heroicon-o-briefcase')
                 ->color('primary'),
         ];
