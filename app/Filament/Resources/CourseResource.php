@@ -3,9 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers;
+use App\Forms\Components\StudyToggle;
 use App\Models\Course;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -25,15 +27,37 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->label(__('courses.fields.title')),
-                Forms\Components\Select::make('teacher_id')
-                    ->relationship('teacher', 'name')
-                    ->label(__('courses.fields.teacher')),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->label(__('courses.fields.description')),
+                Grid::make(1)
+                    ->schema([
+                        Section::make('Informações')
+                            ->schema([
+                                Grid::make(2)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('title')
+                                            ->required()
+                                            ->label(__('courses.fields.title')),
+                                        Forms\Components\Select::make('teacher_id')
+                                            ->relationship('teacher', 'name')
+                                            ->label(__('courses.fields.teacher')),
+                                    ]),
+                                Grid::make(1)
+                                    ->schema([
+                                        Forms\Components\RichEditor::make('description')
+                                            ->required()
+                                            ->disableToolbarButtons([
+                                                'attachFiles',
+                                                'codeBlock',
+                                            ])
+                                            ->label(__('courses.fields.description')),
+                                    ]),
+                            ])
+                            ->columns(2),
+                        Section::make('Situação')
+                            ->schema([
+                                StudyToggle::make('is_active')
+                                    ->label(__('courses.fields.is_active')),
+                            ])
+                    ])
             ]);
     }
 
@@ -45,6 +69,16 @@ class CourseResource extends Resource
                     ->label(__('courses.fields.title')),
                 Tables\Columns\TextColumn::make('teacher.name')
                     ->label(__('courses.fields.teacher')),
+                Tables\Columns\BadgeColumn::make('is_active')
+                    ->label(__('courses.fields.is_active'))
+                    ->enum([
+                        true => __('courses.enums.status.valid'),
+                        false => __('courses.enums.status.invalid'),
+                    ])
+                    ->colors([
+                        'success' => true,
+                        'danger' => false,
+                    ]),
                 Tables\Columns\TextColumn::make('created_at')
                     ->date()
                     ->label(__('courses.fields.created_at')),

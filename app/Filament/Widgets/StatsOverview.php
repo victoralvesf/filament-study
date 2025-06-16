@@ -21,7 +21,7 @@ class StatsOverview extends BaseWidget
             return Student::active()->count();
         });
         $active_courses = Cache::remember('stats:active_courses', $ttl, function () {
-            return Course::count();
+            return Course::active()->count();
         });
         $active_teachers = Cache::remember('stats:active_teachers', $ttl, function () {
             return Teacher::count();
