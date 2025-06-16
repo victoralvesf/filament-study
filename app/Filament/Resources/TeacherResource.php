@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeacherResource\Pages;
-use App\Filament\Resources\TeacherResource\RelationManagers;
+use App\Forms\Components\StudyToggle;
 use App\Models\Teacher;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -35,6 +35,8 @@ class TeacherResource extends Resource
                 Forms\Components\DatePicker::make('hire_date')
                     ->required()
                     ->label(__('teachers.fields.hire_date')),
+                StudyToggle::make('is_active')
+                    ->label(__('teachers.fields.is_active')),
             ]);
     }
 
@@ -46,6 +48,16 @@ class TeacherResource extends Resource
                     ->label(__('teachers.fields.name')),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('teachers.fields.email')),
+                Tables\Columns\BadgeColumn::make('is_active')
+                    ->label(__('teachers.fields.is_active'))
+                    ->enum([
+                        true => __('teachers.enums.employment.valid'),
+                        false => __('teachers.enums.employment.invalid'),
+                    ])
+                    ->colors([
+                        'success' => true,
+                        'danger' => false,
+                    ]),
                 Tables\Columns\TextColumn::make('hire_date')
                     ->date()
                     ->label(__('teachers.fields.hire_date')),
