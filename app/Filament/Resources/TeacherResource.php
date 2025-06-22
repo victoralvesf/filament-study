@@ -6,6 +6,7 @@ use App\Filament\Resources\TeacherResource\Pages;
 use App\Forms\Components\StudyToggle;
 use App\Models\Teacher;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -23,18 +24,25 @@ class TeacherResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->label(__('teachers.fields.name')),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->label(__('teachers.fields.email')),
-                Forms\Components\DatePicker::make('hire_date')
-                    ->required()
-                    ->label(__('teachers.fields.hire_date')),
-                StudyToggle::make('is_active')
-                    ->label(__('teachers.fields.is_active')),
+                Section::make(__('teachers.form.messages.info'))
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->label(__('teachers.fields.name')),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->label(__('teachers.fields.email')),
+                        Forms\Components\DatePicker::make('hire_date')
+                            ->required()
+                            ->label(__('teachers.fields.hire_date')),
+                    ]),
+                Section::make(__('teachers.form.messages.status'))
+                    ->schema([
+                        StudyToggle::make('is_active')
+                            ->label(__('teachers.enums.employment.valid')),
+                    ]),
             ]);
     }
 

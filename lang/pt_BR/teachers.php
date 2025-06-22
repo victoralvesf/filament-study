@@ -5,6 +5,12 @@ return [
         'singular' => 'Professor',
         'plural' => 'Professores',
     ],
+    'form' => [
+        'messages' => [
+            'info' => 'Informações',
+            'status' => 'Situação'
+        ]
+    ],
     'fields' => [
         'name' => 'Nome',
         'email' => 'E-mail',
