@@ -26,16 +26,14 @@ class CourseResource extends Resource
         return $form
             ->schema([
                 Section::make(__('courses.form.messages.info'))
+                    ->columns(2)
                     ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                Forms\Components\TextInput::make('title')
-                                    ->required()
-                                    ->label(__('courses.fields.title')),
-                                Forms\Components\Select::make('teacher_id')
-                                    ->relationship('teacher', 'name')
-                                    ->label(__('courses.fields.teacher')),
-                            ]),
+                        Forms\Components\TextInput::make('title')
+                            ->required()
+                            ->label(__('courses.fields.title')),
+                        Forms\Components\Select::make('teacher_id')
+                            ->relationship('teacher', 'name')
+                            ->label(__('courses.fields.teacher')),
                         Grid::make(1)
                             ->schema([
                                 Forms\Components\RichEditor::make('description')
@@ -46,8 +44,7 @@ class CourseResource extends Resource
                                     ])
                                     ->label(__('courses.fields.description')),
                             ]),
-                    ])
-                    ->columns(2),
+                    ]),
                 Section::make(__('courses.form.messages.status'))
                     ->schema([
                         StudyToggle::make('is_active')
