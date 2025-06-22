@@ -6,6 +6,7 @@ use App\Filament\Resources\StudentResource\Pages;
 use App\Forms\Components\StudyToggle;
 use App\Models\Student;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -23,21 +24,28 @@ class StudentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->label(__('students.fields.name')),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->label(__('students.fields.email')),
-                Forms\Components\DatePicker::make('birth_date')
-                    ->required()
-                    ->label(__('students.fields.birth_date')),
-                Forms\Components\Select::make('course_id')
-                    ->relationship('course', 'title')
-                    ->label(__('students.fields.course')),
-                StudyToggle::make('active')
-                    ->label(__('students.fields.enrollment_status')),
+                Section::make(__('students.form.messages.info'))
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->label(__('students.fields.name')),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->label(__('students.fields.email')),
+                        Forms\Components\DatePicker::make('birth_date')
+                            ->required()
+                            ->label(__('students.fields.birth_date')),
+                        Forms\Components\Select::make('course_id')
+                            ->relationship('course', 'title')
+                            ->label(__('students.fields.course')),
+                    ]),
+                Section::make(__('students.form.messages.status'))
+                    ->schema([
+                        StudyToggle::make('active')
+                            ->label(__('students.fields.enrollment_status')),
+                    ]),
             ]);
     }
 

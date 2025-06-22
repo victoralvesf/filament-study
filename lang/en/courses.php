@@ -7,7 +7,7 @@ return [
     ],
     'form' => [
         'messages' => [
-            'info' => 'Informations',
+            'info' => 'Information',
             'status' => 'Status'
         ]
     ],
