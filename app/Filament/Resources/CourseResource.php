@@ -19,8 +19,6 @@ class CourseResource extends Resource
 {
     protected static ?string $model = Course::class;
 
-    protected static ?string $recordTitleAttribute = 'title';
-
     protected static ?string $navigationIcon = 'heroicon-o-library';
 
     public static function form(Form $form): Form
@@ -63,6 +61,8 @@ class CourseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->sortable()
+                    ->searchable()
                     ->label(__('courses.fields.title')),
                 Tables\Columns\TextColumn::make('teacher.name')
                     ->label(__('courses.fields.teacher')),

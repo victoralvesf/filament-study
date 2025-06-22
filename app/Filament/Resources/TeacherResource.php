@@ -17,8 +17,6 @@ class TeacherResource extends Resource
 {
     protected static ?string $model = Teacher::class;
 
-    protected static ?string $recordTitleAttribute = 'name';
-
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     public static function form(Form $form): Form
@@ -45,6 +43,8 @@ class TeacherResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
                     ->label(__('teachers.fields.name')),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('teachers.fields.email')),

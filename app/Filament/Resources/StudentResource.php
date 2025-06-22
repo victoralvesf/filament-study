@@ -19,8 +19,6 @@ class StudentResource extends Resource
 {
     protected static ?string $model = Student::class;
 
-    protected static ?string $recordTitleAttribute = 'name';
-
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     public static function form(Form $form): Form
@@ -51,8 +49,10 @@ class StudentResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
+                    ->searchable()
                     ->label(__('students.fields.name')),
                 Tables\Columns\TextColumn::make('email')
+                    ->searchable()
                     ->label(__('students.fields.email')),
                 Tables\Columns\TextColumn::make('birth_date')
                     ->date()
