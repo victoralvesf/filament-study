@@ -82,6 +82,15 @@ class CourseResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('teacher_id')
+                    ->relationship('teacher', 'name')
+                    ->label(__('courses.fields.teacher')),
+                Tables\Filters\SelectFilter::make('is_active')
+                    ->options([
+                        true => __('courses.enums.status.valid'),
+                        false => __('courses.enums.status.invalid'),
+                    ])
+                    ->label(__('courses.fields.is_active')),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

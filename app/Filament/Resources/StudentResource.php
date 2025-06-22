@@ -12,7 +12,6 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\App;
 
 class StudentResource extends Resource
 {
@@ -72,6 +71,15 @@ class StudentResource extends Resource
             ->defaultSort('name')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('course_id')
+                    ->relationship('course', 'title')
+                    ->label(__('students.fields.course')),
+                Tables\Filters\SelectFilter::make('active')
+                    ->options([
+                        true => __('students.enums.enrollment.valid'),
+                        false => __('students.enums.enrollment.invalid'),
+                    ])
+                    ->label(__('students.fields.enrollment_status')),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

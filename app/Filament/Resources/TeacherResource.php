@@ -64,6 +64,12 @@ class TeacherResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('is_active')
+                    ->options([
+                        true => __('teachers.enums.employment.valid'),
+                        false => __('teachers.enums.employment.invalid'),
+                    ])
+                    ->label(__('teachers.fields.is_active')),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
